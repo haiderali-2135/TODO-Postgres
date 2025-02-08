@@ -22,6 +22,8 @@ export default clerkMiddleware(async (auth, request) => {
       // ✅ Fetch user data correctly from Clerk
       const client = await clerkClient()
       const user = await client.users.getUser(userId);
+      console.log(user);
+      
       const role = user.publicMetadata?.role as string | undefined;
 
       if (role === "admin" && request.nextUrl.pathname === "/dashboard") {
