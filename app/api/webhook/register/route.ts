@@ -15,7 +15,7 @@ export async function POST(req: Request){
     const svix_signature = headerPayLoad.get("svix-signature")
 
     if(!svix_id || !svix_timestamp || !svix_signature){
-        return new Response("Erro Occured - No Svix headers")
+        return new Response("Error Occured - No Svix headers")
     }
 
     
@@ -48,6 +48,8 @@ export async function POST(req: Request){
     //logs
 
     if(eventType === "user.created"){
+        console.log("-------------------User being created-------------------------------");
+        
         try {
             const {email_addresses, primary_email_address_id} = evt.data
             const primaryEmail = email_addresses.find((email) => email.id === primary_email_address_id)

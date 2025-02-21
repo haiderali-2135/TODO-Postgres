@@ -16,10 +16,11 @@ export async function GET(req: NextRequest){
     const page = parseInt(searchParams.get("page") || "1")
     const search = searchParams.get("search") || ""
 
+
     try {
         const todos = await prisma.todo.findMany({
             where: {
-                id: userId,
+                userID: userId,
                 title: {
                     contains: search,
                     mode: "insensitive"
@@ -32,10 +33,11 @@ export async function GET(req: NextRequest){
                 skip: (page -1) * ITEMS_PER_PAGE
             
         })
+ 
 
         const totalitems = await prisma.todo.count({
             where: {
-                id: userId,
+                userID: userId,
                 title: {
                     contains: search,
                     mode: "insensitive"
@@ -59,6 +61,7 @@ export async function GET(req: NextRequest){
 
 export async function POST(req: NextRequest){
     const { userId } = await auth()
+    console.log("UserID : -----",userId);
     if(!userId){
         return NextResponse.json({error: "Unauthorized"}, {status: 401})
     }
@@ -70,7 +73,7 @@ export async function POST(req: NextRequest){
         }
     )
 
-    console.log(user);
+    console.log("User : -----",user);
 
     if(!user){
         return NextResponse.json({error: "user not found"}, {status: 404})
@@ -84,9 +87,15 @@ export async function POST(req: NextRequest){
 
 
     const {title} = await req.json()
+    console.log("New Todo : -----",title);
 
-    const newTodo = prisma.todo.create({
+    const newTodo = await prisma.todo.create({
         data: {title, userID: userId}
     })
+
+    console.log("New Todo response : -----",(await newTodo).completed);
+
+    return NextResponse.json(newTodo, { status: 201 });
+    
     
 }
