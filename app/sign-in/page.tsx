@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from "react";
+import { useState } from "react";
 import { useSignIn } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -34,7 +34,11 @@ function Signin() {
 
     async function submit(e: React.FormEvent){
         e.preventDefault()
-        
+
+        if (!isLoaded) {
+          return;
+        }
+
         try {
             const result = await signIn?.create({
                 identifier: emailAddress, password
@@ -42,6 +46,8 @@ function Signin() {
 
             if(result?.status === 'complete'){
                 await setActive({session: result.createdSessionId})
+
+                
                 router.push("/dashboard")
             }else{
                 console.log(JSON.stringify(result, null, 2));

@@ -37,8 +37,9 @@ function Dashboard(){
             setTotalPages(data.totalPages)
             setCurrentPage(data.currentPage)
             setLoading(false)
-        } catch (error) {
+        } catch (error: any) {
             setLoading(false)
+
         }
     }, [debounceSearchTerm]) // debounced term only gets updated after 3 mili seconds. so no function call on every stroke
 
@@ -68,7 +69,7 @@ function Dashboard(){
             await fetchTodos(currentPage)
 
 
-        } catch (error) {
+        } catch (error: any) {
             setLoading(false)
         }
     }

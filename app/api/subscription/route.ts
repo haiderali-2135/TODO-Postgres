@@ -81,7 +81,7 @@ export async function GET(){
             subscriptionEnds: user.subscriptionEnds
         })
 
-    } catch (error) {
+    } catch (error: any) {
         
     }
 }

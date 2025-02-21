@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma";
 
 
 
-export async function DELETE(req: NextRequest, {params}: {params: {id: string}}){ // access to a request and will be having a parameter access, [tyep id cause [id] is the name of the folder]
+export async function DELETE(req: NextRequest, context: any){ // access to a request and will be having a parameter access, [tyep id cause [id] is the name of the folder]
     const {userId} = await auth()
 
     if(!userId){
@@ -12,7 +12,7 @@ export async function DELETE(req: NextRequest, {params}: {params: {id: string}})
     }
 
     try {
-        const todoId = params.id
+        const todoId = context.params.id
 
         const todo = await prisma.todo.findUnique({
             where: {id: todoId}
@@ -40,7 +40,7 @@ export async function DELETE(req: NextRequest, {params}: {params: {id: string}})
 
 export async function PUT(
     req: NextRequest,
-    { params }: { params: { id: string } }
+    context: any
   ) {
     const { userId } = await auth();
   
@@ -50,7 +50,7 @@ export async function PUT(
   
     try {
       const { completed } = await req.json();
-      const todoId = params.id;
+      const todoId = context.params.id;
   
       const todo = await prisma.todo.findUnique({
         where: { id: todoId },
