@@ -18,6 +18,9 @@ export async function GET(req: NextRequest){
 
 
     try {
+
+        console.log("what am i searching?________________----------------------------------__________________",search);
+        
         const todos = await prisma.todo.findMany({
             where: {
                 userID: userId,

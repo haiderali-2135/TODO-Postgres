@@ -98,7 +98,9 @@ function Dashboard(){
     useEffect(()=> {  // using useEffect to run functions i want on page load automatically
         fetchTodos(1)
         fetchSubscriptionStatus()
-    }, [])
+    }, [fetchTodos])
+
+
     return(
         <div className="container mx-auto p-4 max-w-3xl mb-8">
         <h1 className="text-3xl font-bold mb-8 text-center">
